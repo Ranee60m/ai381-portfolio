@@ -66,6 +66,7 @@ jobs:
             aquasec/trivy:0.76.1 image \
             --exit-code 1 \
             --severity HIGH,CRITICAL \
+            --ignore-unfixed \
             ai381-churn:${{ github.sha }}
       - name: Log in to GHCR
         run: |

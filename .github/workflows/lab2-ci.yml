@@ -58,6 +58,7 @@ jobs:
 
       - name: Show Docker images
         run: docker images
+
       - name: Trivy Security Scan
         run: |
           docker run --rm \
@@ -66,7 +67,7 @@ jobs:
             --exit-code 1 \
             --severity HIGH,CRITICAL \
             ai381-churn:${{ github.sha }}
-        - name: Log in to GHCR
+      - name: Log in to GHCR
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io \
             -u "${{ github.actor }}" --password-stdin

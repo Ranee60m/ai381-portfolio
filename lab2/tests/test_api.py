@@ -60,3 +60,19 @@ def test_probability_range():
     probability = response.json()["churn_probability"]
 
     assert 0 <= probability <= 1
+
+def test_deterministic_prediction():
+    customer = {
+        "tenure_months": 12,
+        "monthly_charges": 89.9,
+        "support_calls": 3,
+        "contract": "month-to-month",
+        "internet_service": "fiber"
+    }
+
+    first_response = client.post("/predict", json=customer)
+    second_response = client.post("/predict", json=customer)
+
+    assert first_response.status_code == 200
+    assert second_response.status_code == 200
+    assert first_response.json() == second_response.json()

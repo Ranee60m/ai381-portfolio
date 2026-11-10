@@ -1,0 +1,3 @@
+time="2026-11-10T13:04:08Z" level=warning msg="Found orphan containers ([ai381_lab3_starter-api-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container ai381_lab3_starter-mlflow-1  Running
+Tracking server already running; keeping its data.

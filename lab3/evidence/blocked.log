@@ -1,0 +1,10 @@
+/workspace/work/venv/lib/python3.12/site-packages/mlflow/types/utils.py:440: UserWarning: Hint: Inferred schema contains integer column(s). Integer columns in Python cannot represent missing values. If your input data contains missing values at inference time, it will be encoded as floats and will cause a schema enforcement error. The best way to avoid this problem is to infer the model schema based on a realistic data sample (training dataset) that includes missing values. Alternatively, you can declare integer columns as doubles (float64) whenever these columns may have missing values. See `Handling Integers With Missing Values <https://www.mlflow.org/docs/latest/models.html#handling-integers-with-missing-values>`_ for more details.
+  warnings.warn(
+weak               run 93ea31b0  auc 0.787  f1 0.000  p95 24.6 ms  size 4 KB
+🏃 View run weak at: http://localhost:5000/#/experiments/1/runs/93ea31b00d5448b291f284914420c6ec
+🧪 View experiment at: http://localhost:5000/#/experiments/1
+{"batch": "weak-1794315361", "experiment": "churn", "data_sha256": "76a6447e764b80e9b6b80aba1f294d96fab68f79e608c78e2a7af09ae6ea91fa"}
+best candidate: weak  f1 0.000  p95 24.6 ms
+champion:       logreg  f1 0.500  p95 12.3 ms
+BLOCKED: F1 0.000 is not at least 0.01 better than the champion's 0.500.
+PASS: weak candidate blocked; champion artifacts unchanged.

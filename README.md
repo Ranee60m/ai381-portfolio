@@ -1,3 +1,17 @@
+# AI381 Portfolio
+
+## Lab 3 — Tracked, Gated and Shipped (local Docker)
+
+The completed Lab 3 lives in [lab3/](lab3/README.md). Lab 2 remains in its existing folder.
+
+```bash
+cd lab3
+bash scripts/run_local.sh
+```
+
+See [model selection](lab3/MODEL_SELECTION.md), [execution evidence](lab3/evidence/README.md), and [remaining submission steps](lab3/STATUS_AR.md). The Lab 3 training workflow compares to `lab3/artifacts/champion.json` on the PR base branch, and only builds its champion image after a successful gate.
+
+---
 
 # AI381 Portfolio — Lab 2: Container & CI
 

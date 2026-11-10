@@ -1,0 +1,44 @@
+# Lab 2: test every pull request; on main, build, smoke-test, scan and publish the image.
+# Every third-party action is pinned to a full commit SHA (tags can be moved: see the Trivy
+# compromise of March 2026). Update pins on purpose, never by accident.
+name: Lab 3 CI
+# Image publishing lives in train.yml, after the promotion gate.
+
+on:
+  pull_request:          # every pull request: `test` is the required check that protects main
+    branches: [main]
+  push:                  # build and publish only when the service itself changes
+    branches: [main]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "data/**"
+      - "requirements*.txt"
+      - "Dockerfile"
+      - ".github/workflows/ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Lab 3 test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab3
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: lab3/requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - name: Lint
+        run: ruff check .
+      - name: Train (the quality gate is inside)
+        run: python -m src.train.train
+      - name: Test
+        run: pytest -q tests

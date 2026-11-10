@@ -1,0 +1,16 @@
+/workspace/work/venv/lib/python3.12/site-packages/mlflow/types/utils.py:440: UserWarning: Hint: Inferred schema contains integer column(s). Integer columns in Python cannot represent missing values. If your input data contains missing values at inference time, it will be encoded as floats and will cause a schema enforcement error. The best way to avoid this problem is to infer the model schema based on a realistic data sample (training dataset) that includes missing values. Alternatively, you can declare integer columns as doubles (float64) whenever these columns may have missing values. See `Handling Integers With Missing Values <https://www.mlflow.org/docs/latest/models.html#handling-integers-with-missing-values>`_ for more details.
+  warnings.warn(
+logreg             run 1550f4c0  auc 0.798  f1 0.500  p95 12.3 ms  size 4 KB
+🏃 View run logreg at: http://localhost:5000/#/experiments/1/runs/1550f4c0b68b41c69579cee6eea05015
+🧪 View experiment at: http://localhost:5000/#/experiments/1
+/workspace/work/venv/lib/python3.12/site-packages/mlflow/types/utils.py:440: UserWarning: Hint: Inferred schema contains integer column(s). Integer columns in Python cannot represent missing values. If your input data contains missing values at inference time, it will be encoded as floats and will cause a schema enforcement error. The best way to avoid this problem is to infer the model schema based on a realistic data sample (training dataset) that includes missing values. Alternatively, you can declare integer columns as doubles (float64) whenever these columns may have missing values. See `Handling Integers With Missing Values <https://www.mlflow.org/docs/latest/models.html#handling-integers-with-missing-values>`_ for more details.
+  warnings.warn(
+random_forest      run 34907aa2  auc 0.774  f1 0.440  p95 62.5 ms  size 1596 KB
+🏃 View run random_forest at: http://localhost:5000/#/experiments/1/runs/34907aa2a07e480897e677b792e18d83
+🧪 View experiment at: http://localhost:5000/#/experiments/1
+/workspace/work/venv/lib/python3.12/site-packages/mlflow/types/utils.py:440: UserWarning: Hint: Inferred schema contains integer column(s). Integer columns in Python cannot represent missing values. If your input data contains missing values at inference time, it will be encoded as floats and will cause a schema enforcement error. The best way to avoid this problem is to infer the model schema based on a realistic data sample (training dataset) that includes missing values. Alternatively, you can declare integer columns as doubles (float64) whenever these columns may have missing values. See `Handling Integers With Missing Values <https://www.mlflow.org/docs/latest/models.html#handling-integers-with-missing-values>`_ for more details.
+  warnings.warn(
+gradient_boosting  run 73eacaa8  auc 0.783  f1 0.419  p95 16.3 ms  size 72 KB
+🏃 View run gradient_boosting at: http://localhost:5000/#/experiments/1/runs/73eacaa8b00f4e2b9b14a151df1304fa
+🧪 View experiment at: http://localhost:5000/#/experiments/1
+{"batch": "lab3-measured-v2", "experiment": "churn", "data_sha256": "76a6447e764b80e9b6b80aba1f294d96fab68f79e608c78e2a7af09ae6ea91fa"}

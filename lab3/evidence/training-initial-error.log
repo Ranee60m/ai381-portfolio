@@ -1,0 +1,51 @@
+2026/11/10 12:52:25 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at /workspace/work/venv/lib/python3.12/site-packages/mlflow/assistant/skills/instrumenting-with-mlflow-tracing/SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+2026/11/10 12:52:29 INFO mlflow.tracking.fluent: Experiment with name 'churn' does not exist. Creating a new experiment.
+/workspace/work/venv/lib/python3.12/site-packages/mlflow/types/utils.py:440: UserWarning: Hint: Inferred schema contains integer column(s). Integer columns in Python cannot represent missing values. If your input data contains missing values at inference time, it will be encoded as floats and will cause a schema enforcement error. The best way to avoid this problem is to infer the model schema based on a realistic data sample (training dataset) that includes missing values. Alternatively, you can declare integer columns as doubles (float64) whenever these columns may have missing values. See `Handling Integers With Missing Values <https://www.mlflow.org/docs/latest/models.html#handling-integers-with-missing-values>`_ for more details.
+  warnings.warn(
+/workspace/work/venv/lib/python3.12/site-packages/mlflow/types/utils.py:440: UserWarning: Hint: Inferred schema contains integer column(s). Integer columns in Python cannot represent missing values. If your input data contains missing values at inference time, it will be encoded as floats and will cause a schema enforcement error. The best way to avoid this problem is to infer the model schema based on a realistic data sample (training dataset) that includes missing values. Alternatively, you can declare integer columns as doubles (float64) whenever these columns may have missing values. See `Handling Integers With Missing Values <https://www.mlflow.org/docs/latest/models.html#handling-integers-with-missing-values>`_ for more details.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/workspace/work/venv/lib/python3.12/site-packages/mlflow/sklearn/__init__.py", line 709, in _save_model
+    skops.io.load(output_path, trusted=skops_trusted_types)
+  File "/workspace/work/venv/lib/python3.12/site-packages/skops/io/_persist.py", line 152, in load
+    audit_tree(tree, trusted=trusted)
+  File "/workspace/work/venv/lib/python3.12/site-packages/skops/io/_audit.py", line 63, in audit_tree
+    raise UntrustedTypesFoundException(unsafe)
+skops.io.exceptions.UntrustedTypesFoundException: Untrusted types found in the file: ['sklearn.tree._tree.Tree'].
+
+- sklearn.tree._tree.Tree: sklearn.tree._tree.Tree (the shared node storage for DecisionTree*, RandomForest*, ExtraTrees*, and GradientBoosting* models) stores raw node indices (left_child, right_child, feature) that scikit-learn indexes into without bounds checking. A malicious file can set these to out-of-range values: skops loads the object successfully, but calling .predict() on it can then crash the process (segfault) or read out-of-bounds memory. If you created the file yourself or otherwise fully trust its source, you can load it with trusted=["sklearn.tree._tree.Tree"].
+
+Only add the specific types you have reviewed and trust to the `trusted` argument; avoid passing everything reported by get_untrusted_types() just to make a file load.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/work/AI381_Lab3_Starter/src/train/train_mlflow.py", line 128, in <module>
+    main()
+  File "/workspace/work/AI381_Lab3_Starter/src/train/train_mlflow.py", line 118, in main
+    info = mlflow.sklearn.log_model(model, name="model", signature=signature, input_example=X_te.head(3))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/venv/lib/python3.12/site-packages/mlflow/sklearn/__init__.py", line 497, in log_model
+    return Model.log(
+           ^^^^^^^^^^
+  File "/workspace/work/venv/lib/python3.12/site-packages/mlflow/telemetry/track.py", line 30, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/venv/lib/python3.12/site-packages/mlflow/models/model.py", line 1228, in log
+    flavor.save_model(path=local_path, mlflow_model=mlflow_model, **kwargs)
+  File "/workspace/work/venv/lib/python3.12/site-packages/mlflow/sklearn/__init__.py", line 315, in save_model
+    _save_model(
+  File "/workspace/work/venv/lib/python3.12/site-packages/mlflow/sklearn/__init__.py", line 712, in _save_model
+    raise MlflowException(
+mlflow.exceptions.MlflowException: The saved sklearn model references untrusted types. If you are sure loading these types is safe, set the 'skops_trusted_types' parameter when calling 'log_model' or 'save_model' to the list of trusted types. Root error: Untrusted types found in the file: ['sklearn.tree._tree.Tree'].
+
+- sklearn.tree._tree.Tree: sklearn.tree._tree.Tree (the shared node storage for DecisionTree*, RandomForest*, ExtraTrees*, and GradientBoosting* models) stores raw node indices (left_child, right_child, feature) that scikit-learn indexes into without bounds checking. A malicious file can set these to out-of-range values: skops loads the object successfully, but calling .predict() on it can then crash the process (segfault) or read out-of-bounds memory. If you created the file yourself or otherwise fully trust its source, you can load it with trusted=["sklearn.tree._tree.Tree"].
+
+Only add the specific types you have reviewed and trust to the `trusted` argument; avoid passing everything reported by get_untrusted_types() just to make a file load.
+logreg             run 791a3f11  auc 0.798  f1 0.500  p95 26.6 ms  size 4 KB
+🏃 View run logreg at: http://localhost:5000/#/experiments/1/runs/791a3f11b1e7406ea5570b5c87edceff
+🧪 View experiment at: http://localhost:5000/#/experiments/1
+🏃 View run random_forest at: http://localhost:5000/#/experiments/1/runs/0621acac523f420a8326f35efc8b0dd8
+🧪 View experiment at: http://localhost:5000/#/experiments/1

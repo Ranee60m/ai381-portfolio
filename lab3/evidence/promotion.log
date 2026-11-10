@@ -1,0 +1,6 @@
+Successfully registered model 'churn-model'.
+2026/11/10 12:55:08 INFO mlflow.store.model_registry.abstract_store: Waiting up to 300 seconds for model version to finish creation. Model name: churn-model, version 1
+Created version '1' of model 'churn-model'.
+best candidate: logreg  f1 0.500  p95 12.3 ms
+No champion yet: the first model inside the latency budget is promoted.
+PROMOTED: logreg is the new champion (MLflow version 1).

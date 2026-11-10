@@ -1,0 +1,4 @@
+time="2026-11-10T12:59:47Z" level=warning msg="Found orphan containers ([ai381_lab3_starter-mlflow-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container ai381_lab3_starter-api-1  Creating
+ Container ai381_lab3_starter-api-1  Error response from daemon: mkdir /home/dockerd/.local/share/docker/vfs/dir/a355752ab8a8a09d535f4eee639e8e617df2d7a2213301f72d4145f2164856c4/usr/lib/x86_64-linux-gnu/perl-base/unicore/lib: no space left on device
+Error response from daemon: mkdir /home/dockerd/.local/share/docker/vfs/dir/a355752ab8a8a09d535f4eee639e8e617df2d7a2213301f72d4145f2164856c4/usr/lib/x86_64-linux-gnu/perl-base/unicore/lib: no space left on device

@@ -6,7 +6,10 @@ COPY src/ src/
 COPY artifacts/ artifacts/
 ARG GIT_SHA=local
 RUN test -f artifacts/model.joblib && test -f artifacts/metadata.json
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt && \
+# Optional certificate bundle for networks with an HTTPS proxy; TLS verification stays enabled.
+RUN --mount=type=secret,id=pip_ca,target=/run/secrets/pip_ca \
+    if [ -f /run/secrets/pip_ca ]; then export PIP_CERT=/run/secrets/pip_ca; fi; \
+    pip install --no-cache-dir --prefix=/install -r requirements.txt && \
     mkdir -p models && cp artifacts/model.joblib artifacts/metadata.json models/ && \
     python -c "import json,sys; p='models/metadata.json'; m=json.load(open(p)); m['model_version']=sys.argv[1][:7]; json.dump(m,open(p,'w'))" "$GIT_SHA" && \
     rm -rf artifacts && chmod -R a+rX /build /install

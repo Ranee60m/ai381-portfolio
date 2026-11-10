@@ -20,3 +20,6 @@ scripts/
 demo/
 mlflow.db
 mlruns/
+
+evidence/
+mlartifacts/

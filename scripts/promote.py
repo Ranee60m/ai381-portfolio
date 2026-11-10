@@ -35,7 +35,10 @@ def best_candidate(batch: str) -> dict:
     runs = mlflow.search_runs(
         experiment_names=["churn"], filter_string=f"tags.batch = '{batch}'", output_format="list"
     )
-    fast = [r for r in runs if r.info.status == "FINISHED" and r.data.metrics.get("p95_latency_ms", 1e9) <= LATENCY_BUDGET_MS]
+    fast = [
+        r for r in runs
+        if r.info.status == "FINISHED" and r.data.metrics.get("p95_latency_ms", 1e9) <= LATENCY_BUDGET_MS
+    ]
     if not runs:
         sys.exit(f"No runs found for batch '{batch}'. Did train_mlflow.py run against the same MLflow server?")
     if not fast:

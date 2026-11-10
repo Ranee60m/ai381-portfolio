@@ -6,7 +6,6 @@ name: Lab 3 train-and-gate
 on:
   pull_request:
     branches: [main]
-    paths: ["lab3/**", ".github/workflows/lab3-train.yml"]
   push:
     branches: [main]
     paths: ["lab3/**", ".github/workflows/lab3-train.yml"]
@@ -16,7 +15,33 @@ permissions:
   contents: read
 
 jobs:
+  scope:
+    name: Check whether Lab 3 changed
+    runs-on: ubuntu-latest
+    outputs:
+      retrain: ${{ steps.changed.outputs.retrain }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Detect changes under lab3
+        id: changed
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = workflow_dispatch ] || ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+            echo "retrain=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$BASE_SHA" "$GITHUB_SHA" -- lab3/; then
+            echo "retrain=false" >> "$GITHUB_OUTPUT"
+            echo "Lab 3 files are unchanged; keeping the existing champion. No model promotion or image build requested." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "retrain=true" >> "$GITHUB_OUTPUT"
+          fi
+
   gate:
+    needs: scope
+    if: needs.scope.outputs.retrain == 'true'
     name: train and gate
     runs-on: ubuntu-latest
     defaults:

@@ -16,6 +16,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Stage 2: Run the API with a non-root user.
 FROM python:3.13-slim AS runtime
 
+# Builder package updates do not carry into this separate runtime image.
+# Upgrade the runtime library too; keep Trivy's vulnerability checks enabled.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends --only-upgrade zlib1g \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV VIRTUAL_ENV=/opt/venv \
     PATH="/opt/venv/bin:$PATH" \
     PYTHONPATH=/app \

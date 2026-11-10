@@ -7,6 +7,9 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 export MLFLOW_TRACKING_URI=http://localhost:5000
 export GIT_SHA="$(git rev-parse HEAD)"
+if [ -f evidence/mlflow-store.tar.gz ]; then
+  bash scripts/restore_mlflow.sh --if-empty
+fi
 docker compose -f docker-compose.mlflow.yml up -d --wait
 if [ ! -f artifacts/model.joblib ]; then
   export BATCH="bootstrap-$(date +%s)"

@@ -10,13 +10,13 @@ Requirements: Python 3.12, Git, Docker Engine/Desktop with Compose, Bash (WSL2 o
 bash scripts/run_local.sh
 ```
 
-This installs pinned dependencies, starts persistent MLflow, uses the exported champion (or trains/promotes if absent), runs lint/tests, builds a commit-tagged image, deploys with Compose and checks the API. It does not silently replace a champion with an inferior candidate.
+This installs pinned dependencies, restores the supplied tracking backup into an empty stopped store, starts persistent MLflow, uses the exported champion (or trains/promotes if absent), runs lint/tests, builds a commit-tagged image, deploys with Compose and checks the API. It does not silently replace a champion with an inferior candidate.
 
 - MLflow: http://localhost:5000
 - API and health: http://localhost:8000/health
 - Interactive API: http://localhost:8000/docs
 
-The included MLflow export can be restored before starting MLflow; see `evidence/README.md`. This makes the original run IDs in the model metadata visible on a new laptop.
+The included MLflow export is restored automatically on the first start when the store is empty; existing stores are preserved. To restore manually, see `evidence/README.md`. This makes the original run IDs in the model metadata visible on a new laptop.
 
 ## Retrain and inspect the gate
 

@@ -1,0 +1,4 @@
+Waiting for http://localhost:8000/health (up to 60 seconds; a Container App that scaled to zero needs a moment)...
+health:  {"status":"ok","model_version":"b86f82e","mlflow_run_id":"1550f4c0b68b41c69579cee6eea05015","mlflow_model_version":1,"model":"logreg","data_sha256":"76a6447e764b80e9b6b80aba1f294d96fab68f79e608c78e2a7af09ae6ea91fa","auc":0.798,"f1":0.5,"p95_latency_ms":12.34,"trained_at":"2026-11-10T12:55:17+00:00"}
+predict: {"churn_probability":0.824,"model_version":"b86f82e"}
+PASS: smoke test ok, model_version = b86f82e

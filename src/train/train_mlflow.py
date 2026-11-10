@@ -114,7 +114,7 @@ def main() -> None:
             mlflow.log_metrics({k: round(float(v), 4) for k, v in metrics.items()})
 
             # the model, with its signature (inputs and outputs) and an example row
-            signature = infer_signature(X_te, proba)
+            signature = infer_signature(X_te, model.predict(X_te))  # default MLflow flavor returns labels
             info = mlflow.sklearn.log_model(
                 model, name="model", signature=signature, input_example=X_te.head(3),
                 # Only trust the tree storage type produced by our own fitted estimators.

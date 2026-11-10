@@ -16,17 +16,17 @@ git remote add origin https://github.com/OWNER/REPO.git
 git push -u origin lab3
 ```
 
-لإظهار أول PR أخضر دون مقارنة البطل بنفسه، أنشئ main من أول commit الذي يسبق ملفات البطل:
+لإظهار أول PR أخضر دون مقارنة البطل بنفسه، أنشئ main من commit إعداد التدريب الذي يسبق ملفات البطل:
 
 ```bash
-git branch main $(git rev-list --max-parents=0 lab3)
+git branch main b9b500e
 git push -u origin main
 # في GitHub Settings > General اجعل main الفرع الافتراضي
 # ثم افتح PR:
 gh pr create --base main --head lab3 --title "Lab 3: tracked champion and local deployment" --body "MLflow candidates, measured selection, promotion gate and local Docker smoke test."
 ```
 
-أول commit لا يحتوي champion.json، فيكون أول gate مؤهلاً للترقية. بعد نجاح `test` و`train and gate` ادمج PR من GitHub. قد يُحظر تشغيل main اللاحق إذا كانت النتيجة مساوية للبطل المحفوظ؛ هذا سلوك مقصود لقاعدة الحد الأدنى للتحسّن. النشر المحلي يعمل بالبطل المحفوظ ولا يحتاج ترقية جديدة.
+هذا commit لا يحتوي champion.json، فيكون أول gate مؤهلاً للترقية. بعد نجاح `test` و`train and gate` ادمج PR من GitHub. قد يُحظر تشغيل main اللاحق إذا كانت النتيجة مساوية للبطل المحفوظ؛ هذا سلوك مقصود لقاعدة الحد الأدنى للتحسّن. النشر المحلي يعمل بالبطل المحفوظ ولا يحتاج ترقية جديدة.
 
 في Settings > Rules > Rulesets أو Branches أضف حماية main، وRequire status checks، واختر `test` و`train and gate` بعد ظهورهما. حظر الدمج يتطلب تفعيل الحماية؛ اللون الأحمر وحده لا يمنع كل أصحاب الصلاحيات من الدمج.
 

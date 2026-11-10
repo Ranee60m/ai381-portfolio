@@ -1,0 +1,26 @@
+{
+  "image_id": "sha256:329af2ae0df38708f42c6517171bfbb343d05b9a4afd22af54295a1e9acb22ed",
+  "image_tags": [
+    "churn-api:b86f82e",
+    "churn-api:local"
+  ],
+  "build_commit": "b86f82ef869ece864fbe29e63d0b16a412156f63",
+  "training_commit": "b9b500ee61e10662d802f11485df32b86bf251d3",
+  "mlflow_run_id": "1550f4c0b68b41c69579cee6eea05015",
+  "registered_model": "churn-model",
+  "alias": "champion",
+  "health": {
+    "status": "ok",
+    "model_version": "b86f82e",
+    "mlflow_run_id": "1550f4c0b68b41c69579cee6eea05015",
+    "mlflow_model_version": 1,
+    "model": "logreg",
+    "data_sha256": "76a6447e764b80e9b6b80aba1f294d96fab68f79e608c78e2a7af09ae6ea91fa",
+    "auc": 0.798,
+    "f1": 0.5,
+    "p95_latency_ms": 12.34,
+    "trained_at": "2026-11-10T12:55:17+00:00"
+  },
+  "exported_model_sha256": "6318b998b70b87424a25e0a9f3ea95acb7f3056a42fb3381bee69ea6d565258c",
+  "checked": "image tag -> build commit -> committed champion -> MLflow training run -> training commit + exact data hash"
+}

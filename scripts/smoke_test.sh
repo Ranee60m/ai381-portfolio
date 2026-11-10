@@ -11,7 +11,7 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HEALTH_FILE="$(mktemp)"
 trap 'rm -f "$HEALTH_FILE"' EXIT
 
-echo "Waiting for $BASE_URL/health (up to 60 seconds; a Container App that scaled to zero needs a moment)..."
+echo "Waiting for $BASE_URL/health (up to 60 seconds)..."
 for i in $(seq 1 30); do
   if curl -fsS "$BASE_URL/health" -o "$HEALTH_FILE" 2>/dev/null; then break; fi
   sleep 2

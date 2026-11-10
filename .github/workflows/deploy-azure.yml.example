@@ -1,0 +1,61 @@
+# Lab 3, Part 6, option A: deploy to Azure Container Apps from GitHub Actions with OIDC (no stored passwords).
+# This file ends in .example so it does NOT run. If you choose the Azure option:
+#   1. Do the one-time Azure setup from the lab page (resource group, environment, app registration, federated credential).
+#   2. Add three repository secrets: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID (not passwords).
+#   3. Make your GHCR package public (Package settings, Change visibility) so Azure can pull it.
+#   4. Copy this file to deploy-azure.yml, fill in the values marked CHANGE, and pin every action to a full commit SHA:
+#        git ls-remote https://github.com/Azure/login.git 'refs/tags/v*'
+#      (use the SHA of the newest release, and keep the tag in a comment, as ci.yml does).
+name: deploy-azure
+
+on:
+  workflow_run:
+    workflows: [train-and-gate]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write   # lets the job ask GitHub for an OIDC token
+  contents: read
+
+env:
+  RESOURCE_GROUP: ai381-lab3-rg          # CHANGE if you named it differently
+  APP_NAME: ai381-churn-api              # CHANGE: lowercase letters, digits and dashes
+  ENVIRONMENT: ai381-lab3-env            # CHANGE if you named it differently
+
+jobs:
+  deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - name: Image name from the commit
+        env:
+          RELEASE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:${RELEASE_SHA::7}" >> "$GITHUB_ENV"
+          echo "RELEASE_SHA=$RELEASE_SHA" >> "$GITHUB_ENV"
+      - uses: Azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: Azure/container-apps-deploy-action@29ee19866ec987ededd70b8412d9ee241a9102d1 # v1
+        with:
+          imageToDeploy: ${{ env.IMAGE }}
+          containerAppName: ${{ env.APP_NAME }}
+          resourceGroup: ${{ env.RESOURCE_GROUP }}
+          containerAppEnvironment: ${{ env.ENVIRONMENT }}
+          targetPort: 8000
+          ingress: external
+      - name: Scale to zero when idle (and cap the cost)
+        run: az containerapp update -n "$APP_NAME" -g "$RESOURCE_GROUP" --min-replicas 0 --max-replicas 2
+      - name: Smoke test on the public URL
+        run: |
+          FQDN=$(az containerapp show -n "$APP_NAME" -g "$RESOURCE_GROUP" --query properties.configuration.ingress.fqdn -o tsv)
+          bash scripts/smoke_test.sh "https://$FQDN"
+          curl -fsS "https://$FQDN/health" > health.json
+          python -c 'import json,os; h=json.load(open("health.json")); assert h["model_version"] == os.environ["RELEASE_SHA"][:7]'

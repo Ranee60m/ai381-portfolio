@@ -59,8 +59,3 @@ docker compose -f docker-compose.mlflow.yml down
 # Do not add -v unless you intend to erase the tracking volume.
 ```
 
-## Submission
-
-Read `MODEL_SELECTION.md`, `STATUS_AR.md`, `VIDEO_GUIDE_AR.md`, and `evidence/README.md`. Record your own 5–8 minute video with your face, voice and identity checkpoint. Upload the video and a real `repo.txt` repository URL to Teams. No identity, GitHub link, cloud deployment or submitted video is fabricated in this package.
-
-The Lab 3 Dockerfile deliberately fails when no promoted artifact exists. It cannot silently train a different Lab 2 model during image creation. Run the tracking/training/promotion steps before the first build.

@@ -24,7 +24,6 @@ import numpy as np
 import pandas as pd
 from mlflow.models import infer_signature
 from sklearn.compose import ColumnTransformer
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
@@ -50,9 +49,7 @@ def preprocessing() -> ColumnTransformer:
 
 # Three distinct model families: linear baseline, bagging, and boosting.
 CANDIDATES = {
-    "logreg": LogisticRegression(C=0.7, max_iter=1500, random_state=42),
-    "random_forest": RandomForestClassifier(n_estimators=160, max_depth=7, min_samples_leaf=3, random_state=42),
-    "gradient_boosting": GradientBoostingClassifier(n_estimators=80, learning_rate=0.05, max_depth=2, random_state=42),
+    "weak": LogisticRegression(C=0.00001, max_iter=1000, random_state=42),
 }
 
 

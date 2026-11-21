@@ -1,21 +1,20 @@
-# Lab 2: test every pull request; on main, build, smoke-test, scan and publish the image.
-# Every third-party action is pinned to a full commit SHA (tags can be moved: see the Trivy
-# compromise of March 2026). Update pins on purpose, never by accident.
+# Lab 3: lint and test every pull request and relevant main-branch change.
 name: Lab 3 CI
-# Image publishing lives in train.yml, after the promotion gate.
+# Model promotion and image builds live in lab3-train.yml.
 
 on:
   pull_request:          # every pull request: `test` is the required check that protects main
     branches: [main]
-  push:                  # build and publish only when the service itself changes
+  push:                  # test when Lab 3 code or test configuration changes
     branches: [main]
     paths:
-      - "src/**"
-      - "tests/**"
-      - "data/**"
-      - "requirements*.txt"
-      - "Dockerfile"
-      - ".github/workflows/ci.yml"
+      - "lab3/src/**"
+      - "lab3/tests/**"
+      - "lab3/data/**"
+      - "lab3/requirements*.txt"
+      - "lab3/Dockerfile"
+      - ".github/workflows/lab3-ci.yml"
+      - ".github/tests/**"
   workflow_dispatch:
 
 permissions:
